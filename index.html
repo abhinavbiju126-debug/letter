@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anuja — Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffcfe3;
+    --bg-cover: #ffcfe3;
+    --ink: #5c3247;
+    --ink-soft: #bf8ba3;
+    --accent: #ff6fae;
+    --accent-deep: #ff2f8f;
+    --accent-soft: #ffd6ea;
+    --star: #f5c65f;
+    --line: rgba(92,50,71,0.14);
+    --surface: #fffbfd;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #ffcfe3;
+      --bg-cover: #ffcfe3;
+      --ink: #5c3247;
+      --ink-soft: #bf8ba3;
+      --accent: #ff6fae;
+      --accent-deep: #ff2f8f;
+      --accent-soft: #ffd6ea;
+      --star: #f5c65f;
+      --line: rgba(92,50,71,0.14);
+      --surface: #fffbfd;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #ffcfe3;
+    --bg-cover: #ffcfe3;
+    --ink: #5c3247;
+    --ink-soft: #bf8ba3;
+    --accent: #ff6fae;
+    --accent-deep: #ff2f8f;
+    --accent-soft: #ffd6ea;
+    --star: #f5c65f;
+    --line: rgba(92,50,71,0.14);
+    --surface: #fffbfd;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Quicksand', sans-serif;
+    height: 100%;
+    overflow-x: hidden;
+  }
+ 
+  /* ---------- Cover page ---------- */
+  #cover {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  #cover.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  .cover-inner { text-align: center; padding: 24px; }
+  .monogram {
+    width: min(210px, 54vw);
+    margin: 0 auto 2px;
+    position: relative;
+    opacity: 0;
+    animation: pop 0.8s cubic-bezier(.34,1.56,.64,1) 0.15s forwards;
+  }
+  .monogram svg { width: 100%; height: auto; display: block; }
+  .cover-name {
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 6vw, 2.3rem);
+    color: var(--accent-deep);
+    margin: 6px 0 2px;
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.5s forwards;
+  }
+  .cover-sub {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin: 0 0 34px;
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.64s forwards;
+  }
+  .enter-btn {
+    all: unset;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+    background: var(--accent);
+    padding: 12px 30px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -8px var(--accent-deep);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.78s forwards;
+  }
+  .enter-btn:active {
+    transform: scale(0.94);
+    box-shadow: 0 4px 12px -6px var(--accent-deep);
+  }
+  .cover-moon {
+    position: absolute;
+    top: 9%;
+    right: 13%;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    opacity: 0;
+    background:
+      radial-gradient(circle at 30% 28%, rgba(255,255,255,0.6), transparent 42%),
+      radial-gradient(circle at 66% 62%, rgba(110,100,96,0.4) 0%, transparent 40%),
+      radial-gradient(circle at 24% 66%, rgba(120,110,105,0.32) 0%, transparent 32%),
+      radial-gradient(circle at 72% 26%, rgba(130,120,115,0.28) 0%, transparent 26%),
+      radial-gradient(circle at 50% 50%, rgba(140,130,124,0.22) 0%, transparent 55%),
+      radial-gradient(circle at 46% 46%, #efe9e3, #cfc7bd 55%, #a89f96 100%);
+    box-shadow:
+      inset -10px -10px 16px rgba(60,45,40,0.35),
+      inset 4px 4px 10px rgba(255,255,255,0.4),
+      0 6px 18px rgba(80,50,60,0.25);
+    animation: rise-in 0.7s ease 0.05s forwards, moon-float 5s ease-in-out infinite 0.9s;
+  }
+  @keyframes moon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .enter-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -8px var(--accent-deep); }
+  .enter-btn:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 4px; }
+ 
+  /* ---------- Ambient layers ---------- */
+  .balloons, .confetti-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .balloons { z-index: 0; }
+  .confetti-layer { z-index: 5; }
+  .balloon {
+    position: absolute;
+    bottom: -22vh;
+    width: 44px;
+    animation: rise linear infinite;
+    opacity: 0.92;
+  }
+  .balloon svg { width: 100%; height: auto; display: block; }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0) rotate(-4deg); }
+    50%  { transform: translateY(-60vh) translateX(var(--sway, 24px)) rotate(4deg); }
+    100% { transform: translateY(-125vh) translateX(0) rotate(-4deg); }
+  }
+  .confetti-piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 12px;
+    opacity: 1;
+    animation: pop-out 1.1s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes pop-out {
+    to { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+  }
+  .sparkle {
+    position: absolute;
+    animation: twinkle 2.4s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+ 
+  .decor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .cloud {
+    position: absolute;
+    opacity: 0.75;
+    animation: cloud-drift linear infinite, cloud-bob 6s ease-in-out infinite;
+  }
+  .cloud svg { width: 100%; height: auto; display: block; }
+  @keyframes cloud-drift {
+    from { transform: translateX(-25vw); }
+    to   { transform: translateX(125vw); }
+  }
+  @keyframes cloud-bob {
+    0%, 100% { margin-top: 0px; }
+    50% { margin-top: 10px; }
+  }
+  .flower {
+    position: absolute;
+    transform-origin: 50% 85%;
+    animation: flower-sway ease-in-out infinite;
+    opacity: 0.9;
+  }
+  .flower svg { width: 100%; height: auto; display: block; }
+  @keyframes flower-sway {
+    0%, 100% { transform: rotate(-9deg) scale(1); }
+    50% { transform: rotate(9deg) scale(1.06); }
+  }
+  .butterfly {
+    position: absolute;
+    animation: butterfly-float ease-in-out infinite;
+  }
+  .butterfly svg { width: 100%; height: auto; display: block; }
+  .butterfly .wing {
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+    animation: wing-flap 0.5s ease-in-out infinite;
+  }
+  @keyframes butterfly-float {
+    0%   { transform: translate(0, 0) rotate(-4deg); }
+    25%  { transform: translate(26px, -22px) rotate(4deg); }
+    50%  { transform: translate(50px, 4px) rotate(-3deg); }
+    75%  { transform: translate(24px, -18px) rotate(4deg); }
+    100% { transform: translate(0, 0) rotate(-4deg); }
+  }
+  @keyframes wing-flap {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(0.45); }
+  }
+ 
+  .glow {
+    position: fixed;
+    top: -10vh;
+    right: -10vw;
+    width: 60vw;
+    height: 60vw;
+    max-width: 560px;
+    max-height: 560px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+    filter: blur(10px);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+  }
+ 
+  /* ---------- Main page ---------- */
+  #main {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.9s ease 0.15s;
+  }
+  #main.show { opacity: 1; }
+ 
+  .frame {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 14vh 28px 12vh;
+  }
+  .mark {
+    width: 26px;
+    height: 26px;
+    margin: 0 0 36px;
+    color: var(--accent);
+    animation: pop 0.6s cubic-bezier(.34,1.56,.64,1) both;
+    animation-delay: 0.3s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+  .mark svg { width: 100%; height: 100%; display: block; }
+  @keyframes pop {
+    from { transform: scale(0.3); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .eyebrow {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.4s forwards;
+  }
+  h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 8.5vw, 3.8rem);
+    line-height: 1.12;
+    margin: 0 0 24px;
+    color: var(--accent-deep);
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.52s forwards;
+  }
+  .sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 38ch;
+    margin: 0 0 50px;
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.64s forwards;
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  .open-btn {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: #fff;
+    background: var(--accent);
+    cursor: pointer;
+    padding: 12px 26px;
+    border-radius: 999px;
+    box-shadow: 0 8px 18px -8px var(--accent-deep);
+    opacity: 0;
+    animation: rise-in 0.7s ease 0.76s forwards;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .open-btn:active {
+    transform: scale(0.94);
+    box-shadow: 0 4px 10px -6px var(--accent-deep);
+  }
+  .open-btn:hover { transform: translateY(-2px); }
+  .open-btn svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  }
+  .open-btn.opened svg { transform: rotate(90deg); }
+  .open-btn:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 4px; }
+ 
+  .note {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s cubic-bezier(.4,0,.2,1);
+  }
+  .note.show { max-height: 950px; margin-top: 36px; }
+  .note-inner {
+    background: #fffbfd;
+    border: 2px solid #f4a9c6;
+    border-radius: 14px;
+    padding: 20px 30px 34px;
+    box-shadow: 0 14px 30px -18px rgba(224,70,140,0.45);
+  }
+  .letter-heart {
+    display: block;
+    width: 44px;
+    height: 44px;
+    margin: 4px auto 22px;
+  }
+  .note p {
+    font-size: 1.03rem;
+    line-height: 1.7;
+    color: #7a3f57;
+    margin: 0 0 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #ffd6ea;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .note p:last-of-type { border-bottom: none; }
+  .note.show p { animation: rise-in 0.6s ease forwards; }
+  .note.show p:nth-of-type(1) { animation-delay: 0.1s; }
+  .note.show p:nth-of-type(2) { animation-delay: 0.24s; }
+  .note.show p:nth-of-type(3) { animation-delay: 0.38s; }
+  .note.show p:nth-of-type(4) { animation-delay: 0.52s; }
+  .note.show p:nth-of-type(5) { animation-delay: 0.66s; }
+  .note.show p:nth-of-type(6) { animation-delay: 0.8s; }
+  .note.show p:nth-of-type(7) { animation-delay: 0.94s; }
+  .signature {
+    color: #c22f6d;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+ 
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 28px calc(48px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+ 
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    transform: scale(0);
+    animation: ripple-expand 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes ripple-expand {
+    to { transform: scale(1); opacity: 0; }
+  }
+ 
+  @media (prefers-reduced-motion: reduce) {
+    .mark, .eyebrow, h1, .sub, .open-btn, .note p, .sparkle, .monogram, .cover-name, .cover-sub, .enter-btn, .cover-moon { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .note, #cover, #main { transition: none; }
+    .balloon, .confetti-piece, .cloud, .flower, .butterfly, .wing { animation: none !important; display: none !important; }
+  }
+</style>
+</head>
+<body>
+ 
+<div id="cover">
+  <div class="cover-moon" aria-hidden="true"></div>
+  <div class="cover-inner">
+    <div class="monogram">
+      <svg viewBox="0 0 210 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="105" cy="108" r="92" fill="var(--accent-soft)"/>
+        <path class="sparkle" style="animation-delay:0s" d="M40 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="var(--star)"/>
+        <path class="sparkle" style="animation-delay:0.8s" d="M172 60l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z" fill="var(--star)"/>
+        <path class="sparkle" style="animation-delay:1.5s" d="M158 168l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="var(--star)"/>
+        <text x="105" y="150" text-anchor="middle" font-family="Caveat, cursive" font-size="128" font-weight="600" fill="var(--accent-deep)">A</text>
+      </svg>
+    </div>
+    <p class="cover-name">Anuja V. Manoj</p>
+    <p class="cover-sub">a little something, waiting for you 💌</p>
+    <button class="enter-btn" id="enterBtn">Enter ✨</button>
+  </div>
+</div>
+ 
+<div class="balloons" id="balloons" aria-hidden="true"></div>
+<div class="decor" id="decor" aria-hidden="true"></div>
+<div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
+ 
+<div id="main">
+  <div class="frame">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 20.5C12 20.5 3 15.2 3 9.1C3 6.3 5.2 4 8 4C9.7 4 11.1 4.9 12 6.2C12.9 4.9 14.3 4 16 4C18.8 4 21 6.3 21 9.1C21 15.2 12 20.5 12 20.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="eyebrow">for Anuja V. Manoj</p>
+    <h1>Happy birthday,<br>this one's for you</h1>
+    <p class="sub">A short note, saved for today &mdash; open it whenever you're ready.</p>
+ 
+    <button class="open-btn" id="openBtn" aria-expanded="false" aria-controls="note">
+      <span id="btnLabel">Open the note</span>
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 1L12 8L4 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+ 
+    <div class="note" id="note">
+      <div class="note-inner">
+        <svg class="letter-heart" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 40C24 40 6 28.5 6 16.8C6 10.6 10.9 6 16.6 6C19.9 6 22.6 7.7 24 10.3C25.4 7.7 28.1 6 31.4 6C37.1 6 42 10.6 42 16.8C42 28.5 24 40 24 40Z" fill="#e0468c"/>
+        </svg>
+        <p>Sathyam paranjal ithu engane parayanam ennu thanne enikk ariyilla. Pakshe kore naal ayi ithu ninnodu parayanam ennu vijichikkunnu &mdash; njan ninne first kandathe ielts  class-il anu, nammal koode undayirunnathe 4 weeks mathram. Athra valiya time onnum alla.</p>
+        <p>Pakshe aa kurachu time il nee ente mindil undayirunnu. Ee feelings ullathu kondu thanne njan ninne contact cheythe vannathu &mdash; ninnodu vendum vendum mindanam ennu ollathu kondu. Pinne nee New Zealand-um njan Canada-yilekkum poyi. Namma randu different countries-il ayalum, somehow nee enikku important ayi.</p>
+        <p>Ippo ithu ninnodu parayumbol ente side-il enthaanu enn enikku ariyilla. Nee enne ingane thanne aano kanunnathu ennu polum enikk ariyilla.</p>
+        <p>Pakshe ente side-il ollathu ninnodu hide cheyyanam enikku thonniyilla. Enikku ninne ishtamaanu, Anuja.</p>
+        <p>Nee ith accept cheyyumo ennu polum enikk ariyilla. Maybe ninakku enne kurichu angane oru feeling illayirikkam &mdash; athum njan understand cheyyum. But still, ith ninnodu paranjirikkanam ennu thonni &mdash; at least njan ente ota ente feeling ninnodu honest ayi paranjittundu.</p>
+        <p>December-il nammal randu perum nattilekku varunnundu, so nee comfortable ann enkil namukku neridu kanam, samsarikkam.</p>
+        <p>Happy birthday, Anuja. Really hope you have a good day.</p>
+        <p class="signature">&mdash; Abhinav</p>
+      </div>
+    </div>
+  </div>
+ 
+  <footer>
+    <span class="dot"></span>
+    <span>made with a little bit of care</span>
+  </footer>
+</div>
+ 
+<script>
+  (function () {
+    var decor = document.getElementById('decor');
+ 
+    // Clouds
+    var cloudCount = window.innerWidth < 480 ? 2 : 3;
+    for (var i = 0; i < cloudCount; i++) {
+      var cl = document.createElement('div');
+      cl.className = 'cloud';
+      var w = 90 + Math.random() * 70;
+      cl.style.width = w + 'px';
+      cl.style.top = (4 + Math.random() * 22) + 'vh';
+      cl.style.animationDuration = (34 + Math.random() * 20) + 's, 6s';
+      cl.style.animationDelay = (Math.random() * -30) + 's, ' + (Math.random() * -6) + 's';
+      cl.innerHTML = '<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<ellipse cx="35" cy="38" rx="30" ry="18" fill="#ffffff"/>' +
+        '<ellipse cx="65" cy="28" rx="34" ry="22" fill="#ffffff"/>' +
+        '<ellipse cx="92" cy="40" rx="24" ry="15" fill="#ffffff"/>' +
+        '</svg>';
+      decor.appendChild(cl);
+    }
+ 
+    // Flowers
+    var flowerColors = ['#ff6fae', '#ffffff', '#f5c65f'];
+    var flowerCount = window.innerWidth < 480 ? 3 : 5;
+    for (var j = 0; j < flowerCount; j++) {
+      var fl = document.createElement('div');
+      fl.className = 'flower';
+      var fw = 26 + Math.random() * 18;
+      fl.style.width = fw + 'px';
+      fl.style.left = (4 + Math.random() * 90) + 'vw';
+      fl.style.top = (8 + Math.random() * 84) + 'vh';
+      fl.style.animationDuration = (3.4 + Math.random() * 2) + 's';
+      fl.style.animationDelay = (Math.random() * -4) + 's';
+      var fc = flowerColors[j % flowerColors.length];
+      fl.innerHTML = '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<g fill="' + fc + '" opacity="0.85">' +
+        '<ellipse cx="20" cy="9" rx="7" ry="9"/>' +
+        '<ellipse cx="31" cy="20" rx="9" ry="7"/>' +
+        '<ellipse cx="20" cy="31" rx="7" ry="9"/>' +
+        '<ellipse cx="9" cy="20" rx="9" ry="7"/>' +
+        '</g>' +
+        '<circle cx="20" cy="20" r="6" fill="#f5c65f"/>' +
+        '</svg>';
+      decor.appendChild(fl);
+    }
+ 
+    // Butterflies
+    var flyColors = ['#ff6fae', '#e0468c', '#ff9fca'];
+    var flyCount = window.innerWidth < 480 ? 2 : 3;
+    for (var k = 0; k < flyCount; k++) {
+      var bf = document.createElement('div');
+      bf.className = 'butterfly';
+      var bw = 26 + Math.random() * 12;
+      bf.style.width = bw + 'px';
+      bf.style.left = (8 + Math.random() * 80) + 'vw';
+      bf.style.top = (12 + Math.random() * 70) + 'vh';
+      bf.style.animationDuration = (6 + Math.random() * 4) + 's';
+      bf.style.animationDelay = (Math.random() * -8) + 's';
+      var bc = flyColors[k % flyColors.length];
+      bf.innerHTML = '<svg viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<path class="wing" d="M19 15C19 15 10 2 4 6C-2 10 6 22 19 15Z" fill="' + bc + '"/>' +
+        '<path class="wing" d="M21 15C21 15 30 2 36 6C42 10 34 22 21 15Z" fill="' + bc + '"/>' +
+        '<ellipse cx="20" cy="15" rx="1.6" ry="7" fill="#7a3f57"/>' +
+        '</svg>';
+      decor.appendChild(bf);
+    }
+  })();
+ 
+  (function () {
+    var wrap = document.getElementById('balloons');
+    var colors = ['#ff6fae', '#ffd6ea', '#ff9fca', '#f5c65f'];
+    var count = window.innerWidth < 480 ? 4 : 6;
+    for (var i = 0; i < count; i++) {
+      var b = document.createElement('div');
+      b.className = 'balloon';
+      var left = 6 + Math.random() * 88;
+      b.style.left = left + 'vw';
+      b.style.setProperty('--sway', (Math.random() * 50 - 25) + 'px');
+      b.style.animationDuration = (16 + Math.random() * 10) + 's';
+      b.style.animationDelay = (Math.random() * -20) + 's';
+      var c = colors[i % colors.length];
+      b.innerHTML = '<svg viewBox="0 0 46 64" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<ellipse cx="23" cy="24" rx="21" ry="24" fill="' + c + '"/>' +
+        '<path d="M23 48L20 54L23 52L26 54Z" fill="' + c + '"/>' +
+        '<line x1="23" y1="54" x2="23" y2="64" stroke="var(--ink-soft)" stroke-width="1"/>' +
+        '</svg>';
+      wrap.appendChild(b);
+    }
+  })();
+ 
+  function burstConfetti() {
+    var layer = document.getElementById('confettiLayer');
+    var colors = ['#ff6fae', '#ffd6ea', '#ff9fca', '#f5c65f', '#e0468c'];
+    var pieces = window.innerWidth < 480 ? 40 : 60;
+    for (var i = 0; i < pieces; i++) {
+      var p = document.createElement('div');
+      p.className = 'confetti-piece';
+      var angle = Math.random() * Math.PI * 2;
+      var dist = 120 + Math.random() * 260;
+      var tx = Math.cos(angle) * dist;
+      var ty = Math.sin(angle) * dist - 40;
+      p.style.setProperty('--tx', tx + 'px');
+      p.style.setProperty('--ty', ty + 'px');
+      p.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+      p.style.background = colors[i % colors.length];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.animationDelay = (Math.random() * 0.12) + 's';
+      layer.appendChild(p);
+      (function (el) { setTimeout(function () { el.remove(); }, 1400); })(p);
+    }
+  }
+ 
+  function addRipple(e) {
+    var btn = e.currentTarget;
+    var rect = btn.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height) * 1.4;
+    var r = document.createElement('span');
+    r.className = 'ripple';
+    r.style.width = size + 'px';
+    r.style.height = size + 'px';
+    r.style.left = ((e.clientX || rect.left + rect.width / 2) - rect.left - size / 2) + 'px';
+    r.style.top = ((e.clientY || rect.top + rect.height / 2) - rect.top - size / 2) + 'px';
+    btn.appendChild(r);
+    setTimeout(function () { r.remove(); }, 650);
+  }
+ 
+  var cover = document.getElementById('cover');
+  var main = document.getElementById('main');
+  var enterBtn = document.getElementById('enterBtn');
+  enterBtn.addEventListener('click', function (e) {
+    addRipple(e);
+    cover.classList.add('hide');
+    main.classList.add('show');
+    if (history.pushState) { history.pushState({ page: 'note' }, '', '#note'); }
+  });
+ 
+  var btn = document.getElementById('openBtn');
+  var note = document.getElementById('note');
+  var label = document.getElementById('btnLabel');
+  var opened = false;
+  btn.addEventListener('click', function (e) {
+    addRipple(e);
+    opened = !opened;
+    btn.classList.toggle('opened', opened);
+    btn.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    note.classList.toggle('show', opened);
+    label.textContent = opened ? 'Close the note' : 'Open the note';
+    if (opened) burstConfetti();
+  });
+</script>
+</body>
+</html>
+ 
